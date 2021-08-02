@@ -14,45 +14,19 @@ import (
 
 func StartNodeStd(w http.ResponseWriter) (resp []byte, err error) {
 	//cmd := exec.Command(dVPNNodeBin, dVPNNodeStart)
-	cmd := exec.Command("ping", "google.com")
-	//var stdout, stderr []byte
-	//var errStdout, errStderr error
+	cmd := exec.Command(dVPNNodeExec, dVPNNodeStart)
 	NodeStdOut, _ = cmd.StdoutPipe()
 	NodeStdErr, _ = cmd.StderrPipe()
 	err = cmd.Start()
 
-	// cmd.Wait() should be called only after we finish reading
-	// from stdoutIn and stderrIn.
-	// wg ensures that we finish
-	//var wg sync.WaitGroup
-	//wg.Add(1)
-	//go func() {
-	//	stdout, errStdout = sendAndCapture(w, NodeStdOut)
-	//	wg.Done()
-	//}()
-	//
-	//stderr, errStderr = sendAndCapture(w, NodeStdErr)
-	//
-	//wg.Wait()
 	go sendAndCapture(w, NodeStdOut)
 	go sendAndCapture(w, NodeStdErr)
-
-	//err = cmd.Wait()
-	//if err != nil {
-	//	log.Fatalf("cmd.Run() failed with %s\n", err)
-	//}
-	//if errStdout != nil || errStderr != nil {
-	//	log.Fatal("failed to capture stdout or stderr\n")
-	//}
-	//outStr, errStr := string(stdout), string(stderr)
-	//output := fmt.Sprintf("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
 
 	return []byte{}, err
 }
 
 func StartNode() (resp []byte, err error) {
-	//cmd := exec.Command(dVPNNodeBin, dVPNNodeStart)
-	cmd := exec.Command("dvpn-node", "start")
+	cmd := exec.Command(dVPNNodeExec, dVPNNodeStart)
 	var stdout, stderr []byte
 	var errStdout, errStderr error
 	NodeStdOut, _ = cmd.StdoutPipe()
@@ -87,7 +61,11 @@ func StartNode() (resp []byte, err error) {
 }
 
 func GetNode() (resp []byte, err error) {
-	var node Node
+	node, err := processByName(dVPNNodeExec)
+
+	if err != nil {
+		return resp, err
+	}
 
 	resp, err = json.Marshal(node)
 
