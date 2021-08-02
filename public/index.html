@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dVPN Node</title>
+    <script type="text/javascript" src="https://unpkg.com/ansi2html-extended@0.0.4/lib/ansi2html.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        var sock = null;
+        var wsuri = "ws://localhost:9000/api/socket";
+
+        window.onload = function() {
+
+            console.log("onload");
+
+            sock = new WebSocket(wsuri);
+
+            sock.onopen = function() {
+                console.log("connected to " + wsuri);
+            }
+
+            sock.onclose = function(e) {
+                console.log("connection closed (" + e.code + ")");
+                console.log(e.data);
+            }
+
+            sock.onmessage = function(e) {
+                console.log("message received: " + e.data);
+                document.getElementById("console").innerHTML += "<br/>" + e.data
+            }
+
+            sock.onerror = function(e) {
+                console.log(e);
+            }
+        };
+
+        function send() {
+            // var msg = document.getElementById('message').value;
+            // sock.send(msg);
+
+            const Http = new XMLHttpRequest();
+            const url='http://localhost:9000/api/node/start/stream';
+            Http.open("GET", url);
+            Http.send();
+        };
+    </script>
+    <h1>dVPN</h1>
+    <button onclick="send();">Send Message</button>
+    <pre id="console" style="width: 100%;"></pre>
+</body>
+</html>
