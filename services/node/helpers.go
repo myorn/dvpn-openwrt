@@ -59,6 +59,16 @@ func processByName(name string) (node Node, err error) {
 	return node, err
 }
 
+func killProcessByPid(pid int) error {
+	proc, err := os.FindProcess(pid)
+
+	if err != nil {
+		return err
+	}
+
+	return proc.Kill()
+}
+
 func waitForStateWithTimeout(wg *sync.WaitGroup, timeout time.Duration, proc *os.Process, node *Node) bool {
 	c := make(chan *os.ProcessState)
 

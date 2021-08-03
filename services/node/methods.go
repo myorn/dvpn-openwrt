@@ -1,9 +1,9 @@
 package node
 
 import (
-	"github.com/audi70r/dvpn-openwrt/services/socket"
 	"encoding/json"
 	"fmt"
+	"github.com/audi70r/dvpn-openwrt/services/socket"
 	"io"
 	"log"
 	"net/http"
@@ -74,6 +74,20 @@ func GetNode() (resp []byte, err error) {
 	}
 
 	return resp, nil
+}
+
+func KillNode() (err error) {
+	node, err := processByName(dVPNNodeExec)
+
+	if err != nil {
+		return err
+	}
+
+	if err = killProcessByPid(node.Pid); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func sendAndCapture(w io.Writer, r io.Reader) ([]byte, error) {

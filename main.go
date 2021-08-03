@@ -15,6 +15,7 @@ func main() {
 	http.HandleFunc("/api/node/start", controllers.StartNode)
 	http.HandleFunc("/api/node/start/stream", controllers.StartNodeStreamStd)
 	http.HandleFunc("/api/node", controllers.GetNode)
+	http.HandleFunc("/api/node/kill", controllers.KillNode)
 	http.HandleFunc("/api/config", controllers.Config)
 	http.HandleFunc("/api/socket", socket.Handle)
 
