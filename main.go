@@ -14,7 +14,7 @@ var public embed.FS
 func main() {
 	publicDir, _ := fs.Sub(public, "public")
 	publicFS := http.FileServer(http.FS(publicDir))
-	http.Handle("/", publicFS)
+	http.Handle("/", publicFS) // serve embedded static assets
 	http.HandleFunc("/api/node/start", controllers.StartNode)
 	http.HandleFunc("/api/node/start/stream", controllers.StartNodeStreamStd)
 	http.HandleFunc("/api/node", controllers.GetNode)
