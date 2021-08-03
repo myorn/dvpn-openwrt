@@ -18,6 +18,7 @@ func main() {
 	http.HandleFunc("/api/node/kill", controllers.KillNode)
 	http.HandleFunc("/api/config", controllers.Config)
 	http.HandleFunc("/api/socket", socket.Handle)
+	http.HandleFunc("/api/keys", controllers.ListKeys)
 
 	http.ListenAndServe(":9000", nil)
 }

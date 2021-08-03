@@ -14,7 +14,7 @@ import (
 
 func StartNodeStd(w http.ResponseWriter) (resp []byte, err error) {
 	//cmd := exec.Command(dVPNNodeBin, dVPNNodeStart)
-	cmd := exec.Command(dVPNNodeExec, dVPNNodeStart)
+	cmd := exec.Command(DVPNNodeExec, DVPNNodeStart)
 	NodeStdOut, _ = cmd.StdoutPipe()
 	NodeStdErr, _ = cmd.StderrPipe()
 	err = cmd.Start()
@@ -26,7 +26,7 @@ func StartNodeStd(w http.ResponseWriter) (resp []byte, err error) {
 }
 
 func StartNode() (resp []byte, err error) {
-	cmd := exec.Command(dVPNNodeExec, dVPNNodeStart)
+	cmd := exec.Command(DVPNNodeExec, DVPNNodeStart)
 	var stdout, stderr []byte
 	var errStdout, errStderr error
 	NodeStdOut, _ = cmd.StdoutPipe()
@@ -61,7 +61,7 @@ func StartNode() (resp []byte, err error) {
 }
 
 func GetNode() (resp []byte, err error) {
-	node, err := processByName(dVPNNodeExec)
+	node, err := processByName(DVPNNodeExec)
 
 	if err != nil {
 		return resp, err
@@ -77,7 +77,7 @@ func GetNode() (resp []byte, err error) {
 }
 
 func KillNode() (err error) {
-	node, err := processByName(dVPNNodeExec)
+	node, err := processByName(DVPNNodeExec)
 
 	if err != nil {
 		return err
