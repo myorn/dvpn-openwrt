@@ -3,9 +3,10 @@ var wsuri = "ws://localhost:9000/api/socket";
 
 window.onload = function() {
     getConfig();
+    getKeyring();
 
     // fetch node status every three seconds
-    setInterval(getNode, 3000);
+    setInterval(checkNodeStatus, 3000);
 
     sock = new WebSocket(wsuri);
 
@@ -66,7 +67,6 @@ function checkNodeStatus() {
                 if (document.getElementById("btn-start-node").style.display == "block") {
                     document.getElementById("btn-start-node").style.display = "none"
                 }
-                document.getElementById("btn-start-node").style.display = "none"
                 if (document.getElementById("btn-stop-node").style.display == "none") {
                     document.getElementById("btn-stop-node").style.display = "block"
                 }
@@ -74,8 +74,12 @@ function checkNodeStatus() {
                 document.getElementById("node-status").innerHTML = "Stopped";
                 document.getElementById("process-id").innerHTML = "Unavailable";
                 document.getElementById("node-status").style.color = "red"
-                document.getElementById("btn-start-node").style.display = "block"
-                document.getElementById("btn-stop-node").style.display = "none"
+                if (document.getElementById("btn-start-node").style.display == "none") {
+                    document.getElementById("btn-start-node").style.display = "block"
+                }
+                if (document.getElementById("btn-stop-node").style.display == "block") {
+                    document.getElementById("btn-stop-node").style.display = "none"
+                }
             }
         }
     };
@@ -171,4 +175,36 @@ function saveConfig() {
     Http.open("POST", url);
     Http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     Http.send(JSON.stringify(config));
+}
+
+function getKeyring() {
+    const Http = new XMLHttpRequest();
+
+    Http.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var resp = JSON.parse((this.responseText))
+            resp.Keys.forEach(keyring => {
+                console.log(keyring)
+                document.getElementById("keyrings").innerHTML = document.getElementById("keyrings").innerHTML +
+                    `<div class="keyring-block">
+                        <div class="keyring">
+                            <div class="keyring-name" style="font-weight: bold;">Name:</div>
+                            <div class="keyring-operator" style="font-weight: bold;">Address:</div>
+                            <div class="keyring-address" style="font-weight: bold;">Operator:</div>
+                        </div>
+                        <div class="keyring">
+                            <div class="keyring-name">${keyring.Name}</div>
+                            <div class="keyring-operator">${keyring.Operator}</div>
+                            <div class="keyring-address">${keyring.Address}</div>
+                        </div>
+                    </div>`
+            })
+        }
+    }
+
+
+    const url='http://localhost:9000/api/keys';
+    Http.open("GET", url);
+    Http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    Http.send();
 }

@@ -33,10 +33,6 @@
         word-wrap: break-word;
     }
 
-    .ansi_console_snippet {
-        overflow: initial;
-    }
-
     #node-control {
         font-size: 25px;
     }
@@ -57,6 +53,23 @@
         display: block;
         padding-top: 7px;
         padding-bottom: 7px;
+    }
+
+    .keyring-block {
+        margin-top: 40px;
+    }
+
+    .keyring-block .keyring {
+        display: inline-grid;
+    }
+
+    .keyring-block div {
+        display: inline;
+    }
+
+    .btn {
+        width: 250px;
+        height: 30px;
     }
 
 </style>
@@ -133,8 +146,12 @@
             <div>Status: <div id="node-status" style="display:inline-block;">...</div></div>
             <div>ProcessID: <div id="process-id" style="display:inline-block;">...</div></div>
             <br/>
-            <button id="btn-start-node" style="display:none;" onclick="startNode();">Start Node</button>
-            <button id="btn-stop-node" style="display:none;" onclick="kill();">Stop Node</button>
+            <button id="btn-start-node" class="btn" style="display:none;" onclick="startNode();">Start Node</button>
+            <button id="btn-stop-node"  class="btn" style="display:none;" onclick="kill();">Stop Node</button>
+        </div>
+
+        <h3>Keyring</h3>
+        <div id="keyrings">
         </div>
 
         <div id="console">
