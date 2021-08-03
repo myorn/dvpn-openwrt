@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"dvpn-openwrt/services/dvpnconf"
+	"github.com/audi70r/dvpn-openwrt/services/dvpnconf"
 	"io/ioutil"
 	"net/http"
 )

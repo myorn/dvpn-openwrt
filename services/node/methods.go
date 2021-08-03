@@ -1,7 +1,7 @@
 package node
 
 import (
-	"dvpn-openwrt/services/socket"
+	"github.com/audi70r/dvpn-openwrt/services/socket"
 	"encoding/json"
 	"fmt"
 	"io"

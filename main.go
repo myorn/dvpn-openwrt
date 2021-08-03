@@ -1,8 +1,8 @@
 package main
 
 import (
-	"dvpn-openwrt/controllers"
-	"dvpn-openwrt/services/socket"
+	"github.com/audi70r/dvpn-openwrt/controllers"
+	"github.com/audi70r/dvpn-openwrt/services/socket"
 	"io"
 	"net/http"
 )
