@@ -2,11 +2,10 @@ var sock = null;
 var wsuri = "ws://localhost:9000/api/socket";
 
 window.onload = function() {
-
-    console.log("onload");
-
-    getNode();
     getConfig();
+
+    // fetch node status every three seconds
+    setInterval(getNode, 3000);
 
     sock = new WebSocket(wsuri);
 
@@ -38,7 +37,7 @@ function startNode() {
     const Http = new XMLHttpRequest();
 
     Http.onreadystatechange = function() {
-        getNode();
+        checkNodeStatus();
     }
 
     const url='http://localhost:9000/api/node/start/stream';
@@ -47,8 +46,13 @@ function startNode() {
 };
 
 function getNode() {
+    console.log("getting node status")
     document.getElementById("btn-start-node").style.display = "none"
     document.getElementById("btn-stop-node").style.display = "none"
+    checkNodeStatus();
+}
+
+function checkNodeStatus() {
     const Http = new XMLHttpRequest();
 
     Http.onreadystatechange = function() {
@@ -59,8 +63,13 @@ function getNode() {
                 document.getElementById("node-status").innerHTML = "Running";
                 document.getElementById("process-id").innerHTML = resp.Pid;
                 document.getElementById("node-status").style.color = "darkgreen"
+                if (document.getElementById("btn-start-node").style.display == "block") {
+                    document.getElementById("btn-start-node").style.display = "none"
+                }
                 document.getElementById("btn-start-node").style.display = "none"
-                document.getElementById("btn-stop-node").style.display = "block"
+                if (document.getElementById("btn-stop-node").style.display == "none") {
+                    document.getElementById("btn-stop-node").style.display = "block"
+                }
             } else {
                 document.getElementById("node-status").innerHTML = "Stopped";
                 document.getElementById("process-id").innerHTML = "Unavailable";
