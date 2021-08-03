@@ -1,17 +1,20 @@
 package main
 
 import (
+	"embed"
 	"github.com/audi70r/dvpn-openwrt/controllers"
 	"github.com/audi70r/dvpn-openwrt/services/socket"
-	"io"
+	"io/fs"
 	"net/http"
 )
 
-var DVPNOut io.ReadCloser
+//go:embed public
+var public embed.FS
 
 func main() {
-	fs := http.FileServer(http.Dir("./public"))
-	http.Handle("/", fs)
+	publicDir, _ := fs.Sub(public, "public")
+	publicFS := http.FileServer(http.FS(publicDir))
+	http.Handle("/", publicFS)
 	http.HandleFunc("/api/node/start", controllers.StartNode)
 	http.HandleFunc("/api/node/start/stream", controllers.StartNodeStreamStd)
 	http.HandleFunc("/api/node", controllers.GetNode)
@@ -20,5 +23,7 @@ func main() {
 	http.HandleFunc("/api/socket", socket.Handle)
 	http.HandleFunc("/api/keys", controllers.ListKeys)
 
-	http.ListenAndServe(":9000", nil)
+	if err := http.ListenAndServe(":9000", nil); err != nil {
+		panic("failed to start server")
+	}
 }
