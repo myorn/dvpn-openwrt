@@ -4,7 +4,6 @@ import (
 	"embed"
 	"github.com/audi70r/dvpn-openwrt/controllers"
 	"github.com/audi70r/dvpn-openwrt/services/socket"
-	"io/fs"
 	"net/http"
 )
 
@@ -12,8 +11,9 @@ import (
 var public embed.FS
 
 func main() {
-	publicDir, _ := fs.Sub(public, "public")
-	publicFS := http.FileServer(http.FS(publicDir))
+	//publicDir, _ := fs.Sub(public, "public")
+	//publicFS := http.FileServer(http.FS(publicDir))
+	publicFS := http.FileServer(http.Dir("./public"))
 	http.Handle("/", publicFS) // serve embedded static assets
 	http.HandleFunc("/api/node/start", controllers.StartNode)
 	http.HandleFunc("/api/node/start/stream", controllers.StartNodeStreamStd)

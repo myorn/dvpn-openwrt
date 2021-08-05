@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentinel dVPN</title>
+</head>
+
+<style>
+    @font-face {
+        font-family: Overpass;
+        src: url(Overpass-Regular.ttf);
+    }
+
+    @font-face {
+        font-family: "JetBrains Mono";
+        src: url(JetBrainsMono-Regular.ttf);
+    }
+
+    body {
+        background-color: #00061E;
+        color: #FFFFFF;
+        font-family: Overpass;
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .container {
+        width: 940px;
+        margin: auto;
+    }
+
+    .logo {
+        width:130px;
+        margin-bottom: 30px;
+        margin-top:5px;
+    }
+
+    .status-bar {
+        display: flex;
+        width: 940px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .status-bar .status-bar-item {
+        background: linear-gradient(to bottom, #143560 0%, #000f2f 100%);
+        width: 305px;
+        height: 90px;
+        border-radius: 8px;
+        flex: 1 1 0;
+        min-width: 305px;
+    }
+
+    .status-bar-item div {
+        margin-left: 10px;
+    }
+
+    .status-bar-item .label {
+        color: #808891;
+        padding-top: 20px;
+        font-family: "JetBrains Mono";
+    }
+
+    .status-bar-item .value {
+        font-size: 25px;
+    }
+
+    .status-bar .status-tab-center {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .line-separator {
+        height: 30px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-color: #2c394a;
+    }
+
+    .configuration {
+        padding-left: 4px;
+    }
+
+    .configuration .config-section {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: #808891;
+    }
+
+    .configuration .config-section-row {
+        display: flex;
+        justify-content: right;
+        margin-top: 20px;
+    }
+
+    .configuration .config-section-row-item {
+        margin-right: 20px;
+    }
+
+    .configuration .label {
+        margin-top: 10px;
+        font-size: 12px;
+    }
+
+    .configuration .value {
+        font-family: "JetBrains Mono";
+        font-size: 17px;
+    }
+
+    .log {
+        width:908px;
+        min-height: 400px;
+        height: 40%;
+        background-color: #0f3059;
+        border-color: #009ee8;
+        border-width: 1px;
+        color: #009ee8;
+        padding: 15px;
+        border-style: solid;
+        font-family: "JetBrains Mono";
+    }
+
+</style>
+
+<body>
+
+    <div class="container">
+        <img class="logo" src="logo.svg">
+        <div class="status-bar">
+            <div class="status-bar-item">
+                <div class="label">NODE STATUS</div>
+                <div class="value">Up & Running</div>
+            </div>
+            <div class="status-tab-center">
+                <div class="status-bar-item">
+                    <div class="label">IP ADDRESS & PORT</div>
+                    <div class="value">10.32.14.178:2189</div>
+                </div>
+            </div>
+            <div>
+                <div class="status-bar-item">
+                    <div class="label">UPTIME</div>
+                    <div class="value">1m 8d 5h 51m 27s</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="line-separator"></div>
+
+        <div class="configuration">
+            <div class="config-section">CONFIGURATION</div>
+            <div class="config-section-row">
+                <div class="config-section-row-item">
+                    <div class="label">MONIKER (NODE NAME)</div>
+                    <div class="value">My DVPN Node</div>
+                </div>
+            </div>
+            <div class="config-section-row">
+                <div class="config-section-row-item">
+                    <div class="label">CHAIN ID</div>
+                    <div class="value">SENTINELHUB-2</div>
+                </div>
+                <div class="config-section-row-item">
+                    <div class="label">GAS</div>
+                    <div class="value">15000</div>
+                </div>
+                <div class="config-section-row-item">
+                    <div class="label">GAS PRICE</div>
+                    <div class="value">250 DVPN</div>
+                </div>
+                <div class="config-section-row-item">
+                    <div class="label">HANDSHAKE</div>
+                    <div class="value">ENABLED</div>
+                </div>
+                <div class="config-section-row-item">
+                    <div class="label">PEERS</div>
+                    <div class="value">8</div>
+                </div>
+                <div class="config-section-row-item">
+                    <div class="label">SET SESSIONS</div>
+                    <div class="value">2m 0s</div>
+                </div>
+                <div class="config-section-row-item">
+                    <div class="label">UPDATE SESSIONS</div>
+                    <div class="value">1h 30m 0s</div>
+                </div>
+                <div class="config-section-row-item">
+                    <div class="label">UPDATE STATUS</div>
+                    <div class="value">30m 0s</div>
+                </div>
+            </div>
+            <div class="config-section-row">
+                <div class="config-section-row-item">
+                    <div class="label">LISTEN ON</div>
+                    <div class="value">0.0.0.0:2189</div>
+                </div>
+            </div>
+
+            <div class="config-section">LOG</div>
+        </div>
+
+        <div class="log">
+            Node is up & running
+        </div>
+
+
+    </div>
+
+</body>
+</html>
