@@ -1,0 +1,158 @@
+@font-face {
+    font-family: Overpass;
+    src: url(Overpass-Regular.ttf);
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url(JetBrainsMono-Regular.ttf);
+}
+
+body {
+    background-color: #00061E;
+    color: #FFFFFF;
+    font-family: Overpass;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.container {
+    width: 940px;
+    margin: auto;
+}
+
+.logo {
+    width:130px;
+    margin-bottom: 30px;
+    margin-top:5px;
+}
+
+.status-bar {
+    display: flex;
+    width: 940px;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-bar .status-bar-item {
+    background: linear-gradient(to bottom, #143560 0%, #000f2f 100%);
+    width: 305px;
+    height: 90px;
+    border-radius: 8px;
+    flex: 1 1 0;
+    min-width: 305px;
+}
+
+.status-bar-item div {
+    margin-left: 20px;
+}
+
+.status-bar-item .label {
+    color: #808891;
+    padding-top: 20px;
+    font-family: "JetBrains Mono";
+}
+
+.status-bar-item .value {
+    font-size: 25px;
+}
+
+.status-bar .status-tab-center {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.line-separator {
+    height: 30px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: #2c394a;
+}
+
+.configuration {
+    padding-left: 4px;
+}
+
+.configuration .config-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #808891;
+}
+
+.configuration .config-edit-link {
+    color: #009ee8;
+    float: right;
+    cursor: pointer;
+}
+
+.configuration .config-section-row {
+    display: flex;
+    justify-content: right;
+    margin-top: 20px;
+}
+
+.configuration .config-section-row-item {
+    margin-right: 20px;
+}
+
+.configuration .label {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.configuration .value {
+    font-family: "JetBrains Mono";
+    font-size: 17px;
+}
+
+.log {
+    width:908px;
+    min-height: 400px;
+    height: 40%;
+    background-color: #0f3059;
+    border-color: #009ee8;
+    border-width: 1px;
+    color: #009ee8;
+    padding: 15px;
+    border-style: solid;
+    font-family: "JetBrains Mono";
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #0f3059;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    max-width: 600px;
+    width: 90%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

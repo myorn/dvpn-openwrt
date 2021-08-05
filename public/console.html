@@ -3,124 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Sentinel dVPN</title>
+    <link rel="stylesheet" href="styles.css"/>
 </head>
 
-<style>
-    @font-face {
-        font-family: Overpass;
-        src: url(Overpass-Regular.ttf);
-    }
-
-    @font-face {
-        font-family: "JetBrains Mono";
-        src: url(JetBrainsMono-Regular.ttf);
-    }
-
-    body {
-        background-color: #00061E;
-        color: #FFFFFF;
-        font-family: Overpass;
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    .container {
-        width: 940px;
-        margin: auto;
-    }
-
-    .logo {
-        width:130px;
-        margin-bottom: 30px;
-        margin-top:5px;
-    }
-
-    .status-bar {
-        display: flex;
-        width: 940px;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .status-bar .status-bar-item {
-        background: linear-gradient(to bottom, #143560 0%, #000f2f 100%);
-        width: 305px;
-        height: 90px;
-        border-radius: 8px;
-        flex: 1 1 0;
-        min-width: 305px;
-    }
-
-    .status-bar-item div {
-        margin-left: 10px;
-    }
-
-    .status-bar-item .label {
-        color: #808891;
-        padding-top: 20px;
-        font-family: "JetBrains Mono";
-    }
-
-    .status-bar-item .value {
-        font-size: 25px;
-    }
-
-    .status-bar .status-tab-center {
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-
-    .line-separator {
-        height: 30px;
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-color: #2c394a;
-    }
-
-    .configuration {
-        padding-left: 4px;
-    }
-
-    .configuration .config-section {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        color: #808891;
-    }
-
-    .configuration .config-section-row {
-        display: flex;
-        justify-content: right;
-        margin-top: 20px;
-    }
-
-    .configuration .config-section-row-item {
-        margin-right: 20px;
-    }
-
-    .configuration .label {
-        margin-top: 10px;
-        font-size: 12px;
-    }
-
-    .configuration .value {
-        font-family: "JetBrains Mono";
-        font-size: 17px;
-    }
-
-    .log {
-        width:908px;
-        min-height: 400px;
-        height: 40%;
-        background-color: #0f3059;
-        border-color: #009ee8;
-        border-width: 1px;
-        color: #009ee8;
-        padding: 15px;
-        border-style: solid;
-        font-family: "JetBrains Mono";
-    }
-
-</style>
 
 <body>
 
@@ -148,6 +33,7 @@
         <div class="line-separator"></div>
 
         <div class="configuration">
+            <div id="edit-config-link" class="config-edit-link">EDIT</div>
             <div class="config-section">CONFIGURATION</div>
             <div class="config-section-row">
                 <div class="config-section-row-item">
@@ -205,6 +91,18 @@
 
 
     </div>
+
+    <div id="modal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Some text in the Modal..</p>
+        </div>
+
+    </div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
