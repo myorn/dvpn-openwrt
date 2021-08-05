@@ -2,7 +2,7 @@ var ansiconf = {
     standalone: true,
     escapeHtml: true,
     palette: {
-    black: '#222222',
+    black: '#0f3059',
     white: '#eeeeee',
     red:   '#dd0000',
     green: '#00cc3e',
@@ -53,7 +53,6 @@ var makeHeader = function (palette) {
 
     str += '\
     .ansi_console_snippet{\
-        background-color:'+(p.bg || p.bg_black || p.black || "black")+';\
         color:'           +(p.fg || p.fg_white || p.white || "white")+';\
     }\
     .ansi_fg_black  {color:'+(p.fg_black  || p.black || "black ")+'}\
@@ -64,14 +63,6 @@ var makeHeader = function (palette) {
     .ansi_fg_purple {color:'+(p.fg_purple || p.purple|| "purple")+'}\
     .ansi_fg_cyan   {color:'+(p.fg_cyan   || p.cyan  || "cyan  ")+'}\
     .ansi_fg_white  {color:'+(p.fg_white  || p.white || "white ")+'}\
-    .ansi_bg_black  {background-color:'+(p.bg_black  || p.black || "black ")+'}\
-    .ansi_bg_red    {background-color:'+(p.bg_red    || p.red   || "red   ")+'}\
-    .ansi_bg_green  {background-color:'+(p.bg_green  || p.green || "green ")+'}\
-    .ansi_bg_yellow {background-color:'+(p.bg_yellow || p.yellow|| "yellow")+'}\
-    .ansi_bg_blue   {background-color:'+(p.bg_blue   || p.blue  || "blue  ")+'}\
-    .ansi_bg_purple {background-color:'+(p.bg_purple || p.purple|| "purple")+'}\
-    .ansi_bg_cyan   {background-color:'+(p.bg_cyan   || p.cyan  || "cyan  ")+'}\
-    .ansi_bg_white  {background-color:'+(p.bg_white  || p.white || "white ")+'}\
     ';
 
     str += '</style>';

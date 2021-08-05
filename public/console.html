@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Sentinel dVPN</title>
     <link rel="stylesheet" href="styles.css"/>
+    <script type="text/javascript" src="ansi2html.js"></script>
 </head>
 
 
@@ -14,12 +15,12 @@
         <div class="status-bar">
             <div class="status-bar-item">
                 <div class="label">NODE STATUS</div>
-                <div class="value">Up & Running</div>
+                <div id="node-status" class="value">checking...</div>
             </div>
             <div class="status-tab-center">
                 <div class="status-bar-item">
                     <div class="label">IP ADDRESS & PORT</div>
-                    <div class="value">10.32.14.178:2189</div>
+                    <div id="status-bar-ip-addr-port" class="value">---</div>
                 </div>
             </div>
             <div>
@@ -33,73 +34,153 @@
         <div class="line-separator"></div>
 
         <div class="configuration">
-            <div id="edit-config-link" class="config-edit-link">EDIT</div>
+            <div id="edit-keyring-link" class="config-edit-link">EDIT KEYRING</div>
+            <div id="edit-config-link" class="config-edit-link">EDIT CONFIG</div>
             <div class="config-section">CONFIGURATION</div>
             <div class="config-section-row">
                 <div class="config-section-row-item">
                     <div class="label">MONIKER (NODE NAME)</div>
-                    <div class="value">My DVPN Node</div>
+                    <div id="config-section-moniker" class="value">---</div>
                 </div>
             </div>
             <div class="config-section-row">
                 <div class="config-section-row-item">
                     <div class="label">CHAIN ID</div>
-                    <div class="value">SENTINELHUB-2</div>
+                    <div id="config-section-chain-id" class="value">---</div>
                 </div>
                 <div class="config-section-row-item">
                     <div class="label">GAS</div>
-                    <div class="value">15000</div>
+                    <div id="config-section-gas" class="value">---</div>
                 </div>
                 <div class="config-section-row-item">
                     <div class="label">GAS PRICE</div>
-                    <div class="value">250 DVPN</div>
+                    <div id="config-section-gas-price" class="value">---</div>
                 </div>
                 <div class="config-section-row-item">
                     <div class="label">HANDSHAKE</div>
-                    <div class="value">ENABLED</div>
+                    <div id="config-section-handshake" class="value">---</div>
                 </div>
                 <div class="config-section-row-item">
                     <div class="label">PEERS</div>
-                    <div class="value">8</div>
+                    <div id="config-section-handshake-peers" class="value">---</div>
                 </div>
                 <div class="config-section-row-item">
                     <div class="label">SET SESSIONS</div>
-                    <div class="value">2m 0s</div>
+                    <div id="config-section-set-sessions" class="value">---</div>
                 </div>
                 <div class="config-section-row-item">
                     <div class="label">UPDATE SESSIONS</div>
-                    <div class="value">1h 30m 0s</div>
+                    <div id="config-section-update-sessions" class="value">---</div>
                 </div>
                 <div class="config-section-row-item">
                     <div class="label">UPDATE STATUS</div>
-                    <div class="value">30m 0s</div>
+                    <div id="config-section-update-status" class="value">---</div>
                 </div>
             </div>
             <div class="config-section-row">
                 <div class="config-section-row-item">
                     <div class="label">LISTEN ON</div>
-                    <div class="value">0.0.0.0:2189</div>
+                    <div id="config-section-listen-on" class="value">---</div>
                 </div>
             </div>
 
             <div class="config-section">LOG</div>
         </div>
 
-        <div class="log">
-            Node is up & running
-        </div>
+        <div id="log" class="log"></div>
 
 
     </div>
 
     <div id="modal" class="modal">
-
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Some text in the Modal..</p>
+            <div>Edit Config</div><br/>
+            <div class="config-input-fields">
+                <div class="config-save-item">
+                    <div class="label">Chain:</div>
+                    <input type="text" id="conf-gas-adj" name="conf-gas-adj"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">Gas:</div>
+                    <input type="text" id="conf-gas" name="conf-gas"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">Gas Prices:</div>
+                    <input type="text" id="conf-gas-prices" name="conf-gas-prices"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">Chain ID:</div>
+                    <input type="text" id="conf-chain-id" name="conf-chain-id"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">RPC Address:</div>
+                    <input type="text" id="conf-chain-rpc-addr" name="conf-chain-rpc-addr"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">Simulate and Execute:</div>
+                    <input type="checkbox" class="config-checkbox" id="conf-chain-sim-exec" name="conf-chain-sim-exec">
+                </div>
+                <!--  -->
+                <div class="config-save-item">
+                    <div class="label">Interval Set Sessions:</div>
+                    <input type="text" id="conf-node-interval-set-sessions" name="conf-node-interval-set-sessions"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">Interval Update Sessions:</div>
+                    <input type="text" id="conf-node-interval-update-sessions" name="conf-node-interval-update-sessions"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">Interval Update Status:</div>
+                    <input type="text" id="conf-node-interval-update-status" name="conf-node-interval-update-status"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">Listen On:</div>
+                    <input type="text" id="conf-node-listen-on" name="conf-node-listen-on"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">Moniker:</div>
+                    <input type="text" id="conf-node-moniker" name="conf-node-moniker"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">Price:</div>
+                    <input type="text" id="conf-node-price" name="conf-node-price"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">Provider:</div>
+                    <input type="text" id="conf-node-provider" name="conf-node-provider"><br>
+                </div>
+                <div class="config-save-item">
+                    <div class="label">RemoteURL:</div>
+                    <input type="text" id="conf-node-remote-url" name="conf-node-remote-url"><br>
+                </div>
+            </div>
+
+            <div class="line-separator"></div>
+            <div class="config-menu-controls">
+                <div class="cancelBtn">CANCEL</div>
+                <div>SAVE</div>
+            </div>
         </div>
 
+    </div>
+
+    <div id="modal-keyring" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div>Edit Keyring</div><br/>
+
+            <div id="keyrings">
+            </div>
+
+            <div class="line-separator"></div>
+            <div class="config-menu-controls">
+                <div class="cancelBtn">CANCEL</div>
+                <div>SAVE</div>
+            </div>
+        </div>
     </div>
 
 <script src="script.js"></script>
