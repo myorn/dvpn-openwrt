@@ -60,7 +60,7 @@ func StartNode() (resp []byte, err error) {
 	return []byte(output), err
 }
 
-func GetNode() (resp []byte, err error) {
+func GetNode(r *http.Request) (resp []byte, err error) {
 	node, err := processByName(DVPNNodeExec)
 
 	if err != nil {

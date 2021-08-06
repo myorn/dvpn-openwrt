@@ -18,4 +18,5 @@ func init() {
 type Node struct {
 	Online bool
 	Pid    int
+	IPAddr string
 }

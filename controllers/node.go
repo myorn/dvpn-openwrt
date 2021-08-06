@@ -55,7 +55,7 @@ func GetNode(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 
-	resp, err := node.GetNode()
+	resp, err := node.GetNode(r)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

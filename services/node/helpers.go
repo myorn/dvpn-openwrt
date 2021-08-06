@@ -2,7 +2,6 @@ package node
 
 import (
 	"bytes"
-	"fmt"
 	"os"
 	"os/exec"
 	"regexp"
@@ -20,7 +19,7 @@ func processByName(name string) (node Node, err error) {
 	err = cmd.Run()
 
 	if err != nil {
-		fmt.Println(err.Error())
+		// Process not found
 	}
 
 	pidRegExp, err := regexp.Compile("\\w*[0-9]\\w\\w")
@@ -50,11 +49,11 @@ func processByName(name string) (node Node, err error) {
 	timeout := 1 * time.Second
 
 	if waitForStateWithTimeout(&wg, timeout, proc, &node) {
-		fmt.Println("Timed out waiting for wait group")
+		// Timed out waiting for wait group
 	} else {
-		fmt.Println("Wait group finished")
+		// Wait group finished
 	}
-	fmt.Println("Free at last")
+	// Free at last
 
 	return node, err
 }

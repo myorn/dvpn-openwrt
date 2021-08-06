@@ -1,7 +1,7 @@
 // Urls
     var sock = null;
-    var wsuri = "ws://localhost:9000/api/socket";
-    var api = "http://localhost:9000/api/";
+    var wsuri = "ws://" + window.location.host + "/api/socket";
+    var api = "http://" + window.location.host + "/api/";
 
 // Get the modal
     var modal = document.getElementById("modal");
@@ -19,6 +19,8 @@
 window.onload = function() {
     getConfig();
     getKeyring();
+    pc.createOffer()
+        .then(offer => pc.setLocalDescription(offer))
     // fetch node status every three seconds
     setInterval(checkNodeStatus, 3000);
     // Open websocket for monitoring logs
@@ -71,10 +73,11 @@ window.onload = function() {
                 document.getElementById("conf-node-price").value = resp.Node.Price
                 document.getElementById("conf-node-provider").value = resp.Node.Provider
                 document.getElementById("conf-node-remote-url").value = resp.Node.RemoteURL
-                document.getElementById("status-bar-ip-addr-port").innerHTML = resp.Node.RemoteURL
-
+                document.getElementById("status-bar-ip-addr-port").innerHTML = resp.Node.RemoteURL.match(RegExp(/[0-9].[0.9].*/))[0]
                 document.getElementById("config-section-handshake-peers").innerHTML = resp.Handshake.Peers
                 document.getElementById("config-section-handshake").innerHTML = (resp.Handshake.Enable == true ? "ENABLED" : "DISABLED")
+
+                listenOnPort = resp.Node.ListenOn.split(":")[1]
             }
         };
 
@@ -121,7 +124,6 @@ window.onload = function() {
         Http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse((this.responseText))
-                console.log(resp)
                 if (resp.Online == true) {
                     document.getElementById("node-status").innerHTML = "Running"
                 } else {
@@ -130,7 +132,7 @@ window.onload = function() {
             }
         };
 
-        const url= api + 'node';
+        const url = api + 'node';
         Http.open("GET", url);
         Http.send();
     }
@@ -142,7 +144,7 @@ window.onload = function() {
             checkNodeStatus();
         }
 
-        const url= api + 'node/start/stream';
+        const url = api + 'node/start/stream';
         Http.open("GET", url);
         Http.send();
     };

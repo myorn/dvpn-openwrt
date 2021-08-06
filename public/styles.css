@@ -123,10 +123,15 @@ body {
     border-style: solid;
     font-family: "JetBrains Mono";
     word-wrap: break-word;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+    overflow: scroll;
+    height: 400px;
 }
 
 .log span {
     word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .keyring {
