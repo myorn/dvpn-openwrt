@@ -3,10 +3,14 @@ package node
 import (
 	"io"
 	"strings"
+	"time"
 )
 
 var NodeStdOut io.ReadCloser
+
 var NodeStdErr io.ReadCloser
+
+var StartTime time.Time
 
 func init() {
 	outReader := strings.NewReader("out reader")
@@ -16,7 +20,8 @@ func init() {
 }
 
 type Node struct {
-	Online bool
-	Pid    int
-	IPAddr string
+	Online    bool
+	Pid       int
+	IPAddr    string
+	StartTime time.Time
 }

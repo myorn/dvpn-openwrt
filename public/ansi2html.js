@@ -121,39 +121,6 @@ function processOptions (options) {
 }
 
 /**
- * Convert the text from `inputStream` and output it to `outputStream`
- * @param {Object} options
- * @param {Stream} inputStream defaults to STDIN
- * @param {Stream} outputStream defaults to STDOUT
- */
-function ansi2html_stream (options, inputStream, outputStream) {
-    inputStream = inputStream || process.stdin;
-    outputStream = outputStream || process.stdout;
-
-    function write(str) { outputStream.write(str); }
-    var input = readline.createInterface({
-        input: inputStream,
-        output: outputStream
-    });
-
-    if (typeof options.standalone === "undefined") {
-        options.standalone = true;
-    }
-    /////////////////////////////////////////////
-
-    options = processOptions(options);
-    if (options.standalone) write(makeHeader(options.palette));
-    if (options.wrapped)    write(headerLocal);
-    input.on('line', function(line){
-        write(processString(line, options) + EOL);
-    });
-    input.on('close', function() {
-        if (options.wrapped)    write(footerLocal);
-        if (options.standalone) write(footer);
-    });
-}
-
-/**
  * Convert the text from `inputString` and return it
  * @param {Object} options
  * @return {String}

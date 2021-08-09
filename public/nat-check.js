@@ -90,7 +90,7 @@ pc.onicecandidate = function(e) {
             var ports = candidates[Object.keys(candidates)[0]];
             infoprint += "PORTS: " + syntaxHighlight(ports)
             // but if outside ports are different for every candidate, then NAT is symmetric
-            infoprint += (ports.length === 1 ? '<h4 style="color:green;">NON-SYMMETRIC NAT</h4>' : '<br/><h2 style="color:red;background: black;">SYMMETRIC NAT</h2>');
+            infoprint += (ports.length === 1 ? '<h4 style="color:green;">NON-SYMMETRIC NAT</h4>' : '<br/><h4 style="color:red;">SYMMETRIC NAT</h4>');
         }
     }
 

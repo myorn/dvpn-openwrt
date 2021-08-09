@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dVPN Node</title>
+    <script type="text/javascript" src="ansi2html.js"></script>
+</head>
+
+<style>
+    body {
+        margin: 0;
+    }
+
+    #container {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 940px;
+    }
+
+    #console {
+        width: 940px;
+        background-color: black;
+        color: greenyellow;
+        height: 40%;
+        bottom: 0;
+        position: absolute;
+        word-wrap: break-word;
+        overflow-y: scroll;
+    }
+
+    #console span {
+        word-wrap: break-word;
+    }
+
+    #node-control {
+        font-size: 25px;
+    }
+
+    #config-control {
+        float: right;
+    }
+
+    #config-control label {
+        float: left;
+    }
+
+    #config-control input {
+        float: right;
+    }
+
+    .config-element {
+        display: block;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
+
+    .keyring-block {
+        margin-top: 20px;
+    }
+
+    .keyring-block .keyring {
+        display: inline-grid;
+    }
+
+    .keyring-block div {
+        display: inline;
+    }
+
+    .btn {
+        width: 250px;
+        height: 30px;
+    }
+
+</style>
+
+<body>
+    <script type="text/javascript" src="main.js"></script>
+
+    <div id="container">
+        <h1>dVPN</h1>
+
+        <div id="config-control">
+            <div class="config-element">
+                <label for="conf-gas-adj">Chain:</label>
+                <input type="text" id="conf-gas-adj" name="conf-gas-adj"><br>
+            </div>
+            <div class="config-element">
+                <label for="conf-gas">Gas:</label>
+                <input type="text" id="conf-gas" name="conf-gas"><br>
+            </div>
+            <div class="config-element">
+                <label for="conf-gas-prices">Gas Prices:</label>
+                <input type="text" id="conf-gas-prices" name="conf-gas-prices"><br>
+            </div class="config-element">
+            <div>
+                <label for="conf-chain-id">Chain ID:</label>
+                <input type="text" id="conf-chain-id" name="conf-chain-id"><br>
+            </div>
+            <div class="config-element">
+                <label for="conf-chain-rpc-addr">RPC Address:</label>
+                <input type="text" id="conf-chain-rpc-addr" name="conf-chain-rpc-addr"><br>
+            </div>
+            <div class="config-element">
+                <label for="conf-chain-sim-exec">Simulate and Execute:</label>
+                <input type="checkbox" id="conf-chain-sim-exec" name="conf-chain-sim-exec"><br>
+            </div>
+            <!--  -->
+            <div class="config-element">
+                <label for="conf-node-interval-set-sessions">Interval Set Sessions:</label>
+                <input type="text" id="conf-node-interval-set-sessions" name="conf-node-interval-set-sessions"><br>
+            </div>
+            <div class="config-element">
+                <label for="conf-node-interval-update-sessions">Interval Update Sessions:</label>
+                <input type="text" id="conf-node-interval-update-sessions" name="conf-node-interval-update-sessions"><br>
+            </div>
+            <div class="config-element">
+                <label for="conf-node-interval-update-status">Interval Update Status:</label>
+                <input type="text" id="conf-node-interval-update-status" name="conf-node-interval-update-status"><br>
+            </div>
+            <div>
+                <label for="conf-node-listen-on">Listen On:</label>
+                <input type="text" id="conf-node-listen-on" name="conf-node-listen-on"><br>
+            </div>
+            <div class="config-element">
+                <label for="conf-node-moniker">Moniker:</label>
+                <input type="text" id="conf-node-moniker" name="conf-node-moniker"><br>
+            </div>
+            <div class="config-element">
+                <label for="conf-node-price">Price:</label>
+                <input type="text" id="conf-node-price" name="conf-node-price"><br>
+            </div>
+            <div class="config-element">
+                <label for="conf-node-provider">Provider:</label>
+                <input type="text" id="conf-node-provider" name="conf-node-provider"><br>
+            </div>
+            <div class="config-element">
+                <label for="conf-node-remote-url">RemoteURL:</label>
+                <input type="text" id="conf-node-remote-url" name="conf-node-remote-url"><br>
+            </div>
+
+            <input type="button" onclick="saveConfig();" value="Save">
+        </div>
+
+        <div id="node-control">
+            <div>Status: <div id="node-status" style="display:inline-block;">...</div></div>
+            <div>ProcessID: <div id="process-id" style="display:inline-block;">...</div></div>
+            <br/>
+            <button id="btn-start-node" class="btn" style="display:none;" onclick="startNode();">Start Node</button>
+            <button id="btn-stop-node"  class="btn" style="display:none;" onclick="kill();">Stop Node</button>
+        </div>
+
+        <h3>Keyring</h3>
+        <div id="keyrings">
+        </div>
+
+        <div id="console">
+        </div>
+
+    </div>
+</body>
+</html>

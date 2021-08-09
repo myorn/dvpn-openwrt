@@ -15,7 +15,6 @@ func main() {
 	//publicFS := http.FileServer(http.FS(publicDir))
 	publicFS := http.FileServer(http.Dir("./public"))
 	http.Handle("/", publicFS) // serve embedded static assets
-	http.HandleFunc("/api/node/start", controllers.StartNode)
 	http.HandleFunc("/api/node/start/stream", controllers.StartNodeStreamStd)
 	http.HandleFunc("/api/node", controllers.GetNode)
 	http.HandleFunc("/api/node/kill", controllers.KillNode)

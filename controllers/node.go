@@ -10,22 +10,7 @@ func StartNodeStreamStd(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 
-	resp, err := node.StartNodeStd(w)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Write(resp)
-}
-
-func StartNode(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-	}
-
-	resp, err := node.StartNode()
+	resp, err := node.StartNodeStd()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -55,7 +40,7 @@ func GetNode(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 
-	resp, err := node.GetNode(r)
+	resp, err := node.GetNode()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

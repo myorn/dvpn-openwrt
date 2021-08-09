@@ -2,11 +2,11 @@ package node
 
 import (
 	"bytes"
+	"context"
 	"os"
 	"os/exec"
 	"regexp"
 	"strconv"
-	"sync"
 	"time"
 )
 
@@ -44,17 +44,11 @@ func processByName(name string) (node Node, err error) {
 		return node, err
 	}
 
-	wg := sync.WaitGroup{}
-	wg.Add(1)
-	timeout := 1 * time.Second
+	timeout := 700 * time.Millisecond
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
 
-	if waitForStateWithTimeout(&wg, timeout, proc, &node) {
-		// Timed out waiting for wait group
-	} else {
-		// Wait group finished
-	}
-	// Free at last
-
+	node.Online = waitForStateWithContext(ctx, proc)
 	return node, err
 }
 
@@ -68,24 +62,23 @@ func killProcessByPid(pid int) error {
 	return proc.Kill()
 }
 
-func waitForStateWithTimeout(wg *sync.WaitGroup, timeout time.Duration, proc *os.Process, node *Node) bool {
-	c := make(chan *os.ProcessState)
+func waitForStateWithContext(ctx context.Context, proc *os.Process) bool {
+	c := make(chan bool)
 
 	go func() {
 		state, err := proc.Wait()
-		if err != nil {
-			c <- state
+		if err == nil {
+			c <- state.Exited()
 		}
 
 		defer close(c)
-		wg.Wait()
 	}()
+
 	select {
-	case <-c:
-		node.Online = false
-		return false // completed normally
-	case <-time.After(timeout):
-		node.Online = true
-		return true // timed out
+	case <-ctx.Done():
+		// context timed out the process has not exited
+		return true
+	case state := <-c:
+		return state
 	}
 }

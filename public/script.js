@@ -8,6 +8,8 @@
     var modalKeyring = document.getElementById("modal-keyring");
 
 // Get the button that opens the modal
+    var startNodeBtn = document.getElementById("start-node-link");
+    var stopNodeBtn = document.getElementById("stop-node-link");
     var editConfigBtn = document.getElementById("edit-config-link");
     var editKeyringBtn = document.getElementById("edit-keyring-link");
 
@@ -35,7 +37,7 @@ window.onload = function() {
     sock.onmessage = function(e) {
         //console.log("message received: " + e.data);
         var stdOut = document.getElementById('log');
-        stdOut.innerHTML += "<br/>" + ansi2html_string(ansiconf, e.data)
+        stdOut.innerHTML += ansi2html_string(ansiconf, e.data)
         stdOut.scrollTop = stdOut.scrollHeight;
     }
     sock.onerror = function(e) {
@@ -125,9 +127,20 @@ window.onload = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse((this.responseText))
                 if (resp.Online == true) {
+                    // Display Node Status
                     document.getElementById("node-status").innerHTML = "Running"
+                    stopNodeBtn.style.display = "block"
+                    startNodeBtn.style.display = "none"
+                    // If node is online, start the online counter
+                    var startTime = new Date('0001-01-01T00:00:00Z');
+                    var nowTime = new Date()
+                    // document.getElementById("status-bar-uptime").innerHTML = nowTime.diff(startTime, "seconds")
+                    //1m 8d 5h 51m 27s
                 } else {
+                    document.getElementById("status-bar-uptime").innerHTML = "---"
                     document.getElementById("node-status").innerHTML = "Inactive"
+                    stopNodeBtn.style.display = "none"
+                    startNodeBtn.style.display = "block"
                 }
             }
         };
@@ -164,6 +177,18 @@ window.onload = function() {
 // When the user clicks on the button, open the modal
     editConfigBtn.onclick = function() {
         modal.style.display = "block";
+    }
+
+    startNodeBtn.style.display = "none"
+    startNodeBtn.onclick = function () {
+        startNodeBtn.style.display = "none"
+        startNode();
+    }
+
+    stopNodeBtn.style.display = "none"
+    stopNodeBtn.onclick = function () {
+        stopNodeBtn.style.display = "none"
+        kill();
     }
 
     editKeyringBtn.onclick = function() {
