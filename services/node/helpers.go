@@ -2,15 +2,18 @@ package node
 
 import (
 	"bytes"
-	"context"
 	"os"
 	"os/exec"
 	"regexp"
 	"strconv"
-	"time"
 )
 
-func processByName(name string) (node Node, err error) {
+func updateNodeStatus(name string) (err error) {
+	if ND.OSProcess != nil {
+		return nil
+	}
+
+	// Search for the process in case node was started elsewhere. ex. through ssh console.
 	var out bytes.Buffer
 
 	cmd := exec.Command("ps", "-C", name)
@@ -19,13 +22,13 @@ func processByName(name string) (node Node, err error) {
 	err = cmd.Run()
 
 	if err != nil {
-		// Process not found
+		return nil
 	}
 
 	pidRegExp, err := regexp.Compile("\\w*[0-9]\\w\\w")
 
 	if err != nil {
-		return node, err
+		return err
 	}
 
 	pid := pidRegExp.FindString(out.String())
@@ -33,23 +36,25 @@ func processByName(name string) (node Node, err error) {
 	pidInt, err := strconv.Atoi(pid)
 
 	if err != nil {
-		return node, nil
+		return err
 	}
 
-	node.Pid = pidInt
+	ND.OSProcess, err = os.FindProcess(pidInt)
 
-	proc, err := os.FindProcess(pidInt)
-
+	// process not found, so what...
 	if err != nil {
-		return node, err
+		return nil
 	}
 
-	timeout := 700 * time.Millisecond
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	defer cancel()
+	ND.Pid = pidInt
+	ND.Online = true
 
-	node.Online = waitForStateWithContext(ctx, proc)
-	return node, err
+	go func() {
+		ND.OSProcess.Wait()
+		ND = Node{}
+	}()
+
+	return err
 }
 
 func killProcessByPid(pid int) error {
@@ -60,25 +65,4 @@ func killProcessByPid(pid int) error {
 	}
 
 	return proc.Kill()
-}
-
-func waitForStateWithContext(ctx context.Context, proc *os.Process) bool {
-	c := make(chan bool)
-
-	go func() {
-		state, err := proc.Wait()
-		if err == nil {
-			c <- state.Exited()
-		}
-
-		defer close(c)
-	}()
-
-	select {
-	case <-ctx.Done():
-		// context timed out the process has not exited
-		return true
-	case state := <-c:
-		return state
-	}
 }

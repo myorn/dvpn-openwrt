@@ -2,11 +2,9 @@ package node
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/audi70r/dvpn-openwrt/services/socket"
 	"io"
 	"os/exec"
-	"runtime"
 	"time"
 )
 
@@ -14,29 +12,34 @@ func StartNodeStd() (resp []byte, err error) {
 	cmd := exec.Command(DVPNNodeExec, DVPNNodeStart)
 	NodeStdOut, _ = cmd.StdoutPipe()
 	NodeStdErr, _ = cmd.StderrPipe()
-	err = cmd.Start()
+
+	if err = cmd.Start(); err != nil {
+		return []byte{}, err
+	}
+
+	ND.Online = true
+	ND.StartTime = time.Now()
+	ND.OSProcess = cmd.Process
+	ND.Pid = cmd.Process.Pid
 
 	go sendAndCapture(NodeStdOut)
 	go sendAndCapture(NodeStdErr)
-	go cmd.Wait()
 
-	StartTime = time.Now()
+	// After process ended, reset node to defaults
+	go func() {
+		cmd.Wait()
+		ND = Node{}
+	}()
 
 	return []byte{}, err
 }
 
 func GetNode() (resp []byte, err error) {
-	node, err := processByName(DVPNNodeExec)
-
-	if err != nil {
+	if err = updateNodeStatus(DVPNNodeExec); err != nil {
 		return resp, err
 	}
 
-	fmt.Printf("nr on routines %v \n", runtime.NumGoroutine()) // TODO: for debugging, remove later
-
-	node.StartTime = StartTime
-
-	resp, err = json.Marshal(node)
+	resp, err = json.Marshal(ND)
 
 	if err != nil {
 		return resp, err
@@ -46,17 +49,20 @@ func GetNode() (resp []byte, err error) {
 }
 
 func KillNode() (err error) {
-	node, err := processByName(DVPNNodeExec)
-
-	if err != nil {
+	if err = updateNodeStatus(DVPNNodeExec); err != nil {
 		return err
 	}
 
-	if err = killProcessByPid(node.Pid); err != nil {
+	// node is already dead
+	if ND.OSProcess == nil {
+		return nil
+	}
+
+	if err = killProcessByPid(ND.Pid); err != nil {
 		return err
 	}
 
-	StartTime = time.Time{}
+	ND = Node{}
 
 	return nil
 }
@@ -69,7 +75,7 @@ func sendAndCapture(r io.Reader) {
 		if n > 0 {
 			d := buf[:n]
 			out = append(out, d...)
-			socket.Connection.WriteMessage(1, d)
+			socket.Conn.Send(d)
 			if err != nil {
 				break
 			}

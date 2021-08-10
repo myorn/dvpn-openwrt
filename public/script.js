@@ -19,6 +19,7 @@
 
 // Window onload events
 window.onload = function() {
+    checkNodeStatus();
     getConfig();
     getKeyring();
     pc.createOffer()

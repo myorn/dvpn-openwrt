@@ -168,7 +168,7 @@ body {
 .modal-content {
     font-family: "JetBrains Mono";
     background-color: #0f3059;
-    margin: 10% auto; /* 15% from the top and centered */
+    margin: 5% auto; /* 15% from the top and centered */
     padding: 20px;
     max-width: 600px;
     width: 90%; /* Could be more or less, depending on screen size */
