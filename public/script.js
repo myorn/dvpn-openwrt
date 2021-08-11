@@ -13,13 +13,13 @@
     var editConfigBtn = document.getElementById("edit-config-link");
     var editKeyringBtn = document.getElementById("edit-keyring-link");
 
-// Get the <span> element that closes the modal
+    // Get the <span> element that closes the modal
     var closeBtnElements = document.getElementsByClassName("close");
+    var saveConfigBtn = document.getElementById("config-menu-save")
     var cancelBtnElements = document.getElementsByClassName("cancelBtn");
 
 // Window onload events
 window.onload = function() {
-    checkNodeStatus();
     getConfig();
     getKeyring();
     pc.createOffer()
@@ -120,6 +120,52 @@ window.onload = function() {
         Http.send();
     }
 
+    function saveConfig() {
+        const Http = new XMLHttpRequest();
+
+        Http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                getConfig();
+                modal.style.display = "none";
+            }
+        }
+
+        var config = {
+            "Chain": {
+                "GasAdjustment": parseFloat(document.getElementById("conf-gas-adj").value),
+                "Gas": parseFloat(document.getElementById("conf-gas").value),
+                "GasPrices": document.getElementById("conf-gas-prices").value,
+                "ID": document.getElementById("conf-chain-id").value,
+                "RPCAddress": document.getElementById("conf-chain-rpc-addr").value,
+                "SimulateAndExecute": document.getElementById("conf-chain-sim-exec").checked
+            },
+            "Handshake": {
+                "Enable": false,
+                "Peers": 8
+            },
+            "Keyring": {
+                "Backend": "test",
+                "From": "nuage"
+            },
+            "Node": {
+                "IntervalSetSessions": document.getElementById("conf-node-interval-set-sessions").value,
+                "IntervalUpdateSessions": document.getElementById("conf-node-interval-update-sessions").value,
+                "IntervalUpdateStatus": document.getElementById("conf-node-interval-update-status").value,
+                "ListenOn": document.getElementById("conf-node-listen-on").value,
+                "Moniker": document.getElementById("conf-node-moniker").value,
+                "Price": document.getElementById("conf-node-price").value,
+                "Provider": document.getElementById("conf-node-provider").value,
+                "RemoteURL": document.getElementById("conf-node-remote-url").value
+            },
+            "Qos": {}
+        }
+
+        const url= api + 'config';
+        Http.open("POST", url);
+        Http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        Http.send(JSON.stringify(config));
+    }
+
 // Node
     function checkNodeStatus() {
         const Http = new XMLHttpRequest();
@@ -133,10 +179,8 @@ window.onload = function() {
                     stopNodeBtn.style.display = "block"
                     startNodeBtn.style.display = "none"
                     // If node is online, start the online counter
-                    var startTime = new Date('0001-01-01T00:00:00Z');
-                    var nowTime = new Date()
-                    // document.getElementById("status-bar-uptime").innerHTML = nowTime.diff(startTime, "seconds")
-                    //1m 8d 5h 51m 27s
+                    startTime = new Date(resp.StartTime)
+                    document.getElementById("status-bar-uptime").innerHTML = formatDate(startTime)
                 } else {
                     document.getElementById("status-bar-uptime").innerHTML = "---"
                     document.getElementById("node-status").innerHTML = "Inactive"
@@ -210,6 +254,10 @@ window.onload = function() {
         }
     }
 
+    saveConfigBtn.onclick = function() {
+        saveConfig();
+    }
+
 // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == modal) {
@@ -220,3 +268,24 @@ window.onload = function() {
         }
     }
 
+function formatDate(startTime) {
+    currentDate = new Date()
+    diffTimestamp = currentDate.getTime() - startTime.getTime()
+    diffDate = new Date(diffTimestamp);
+
+    if (startTime.getFullYear() == 1) {
+        return "---"
+    }
+
+    years = currentDate.getFullYear() - startTime.getFullYear()
+    months = currentDate.getMonth() - startTime.getMonth()
+    days = currentDate.getDay() - startTime.getDay()
+    hours = currentDate.getHours() - startTime.getHours()
+    minutes = currentDate.getMinutes() - startTime.getMinutes()
+    seconds = currentDate.getSeconds() - startTime.getSeconds()
+
+
+    prettyPrint = years + "y " + months + "m " + days + "d " + hours + "h " + minutes + "m " + seconds + "s"
+
+    return prettyPrint
+}
