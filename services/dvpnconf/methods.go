@@ -2,8 +2,10 @@ package dvpnconf
 
 import (
 	"encoding/json"
+	"github.com/audi70r/dvpn-openwrt/services/node"
 	"io/ioutil"
 	"os"
+	"os/exec"
 
 	"github.com/pelletier/go-toml"
 )
@@ -14,8 +16,9 @@ func GetConfig() (config []byte, err error) {
 	configPath := os.Getenv("HOME") + dVPNConfigRootDir
 	confBytes, readErr := ioutil.ReadFile(configPath)
 
+	// if config could not be read, attempt to init config
 	if readErr != nil {
-		return config, readErr
+		return initConfig()
 	}
 
 	if err = toml.Unmarshal(confBytes, &dVPNConfig); err != nil {
@@ -47,4 +50,16 @@ func PostConfig(config dVPNConfig) (resp []byte, err error) {
 	}
 
 	return resp, err
+}
+
+func initConfig() (config []byte, err error) {
+	cmd := exec.Command(node.DVPNNodeExec, node.DVPNNodeConfig, node.DVPNNodeInit)
+
+	err = cmd.Run()
+
+	if err != nil {
+		return config, err
+	}
+
+	return GetConfig()
 }
