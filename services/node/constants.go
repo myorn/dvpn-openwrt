@@ -1,7 +1,7 @@
 package node
 
 const (
-	DVPNNodeExec    = "dvpn-node"
+	DVPNNodeExec    = "/usr/bin/dvpn-node"
 	DVPNNodeStart   = "start"
 	DVPNNodeConfig  = "config"
 	DVPNNodeInit    = "init"
