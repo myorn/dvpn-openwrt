@@ -180,7 +180,7 @@ window.onload = function() {
 
         var keys = {
             "Name": document.getElementById("conf-keys-name").value,
-            "Mnemonic": document.getElementById("conf-keys-name").innerText
+            "Mnemonic": document.getElementById("conf-keys-name").value
         }
 
         const url= api + 'keys/add';

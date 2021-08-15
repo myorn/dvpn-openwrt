@@ -7,6 +7,7 @@ import (
 	"github.com/audi70r/dvpn-openwrt/services/socket"
 	"io/fs"
 	"net/http"
+	"os"
 )
 
 //go:embed public
@@ -14,6 +15,10 @@ import (
 var public embed.FS
 
 func main() {
+	if _, homeSet := os.LookupEnv("HOME"); !homeSet {
+		os.Setenv("PATH", "/usr/sbin:/usr/bin:/sbin:/bin:")
+		os.Setenv("HOME", "/root")
+	}
 	// for development: serve static assets from public folder
 	//publicFS := http.FileServer(http.Dir("./public"))
 
