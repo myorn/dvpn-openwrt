@@ -12,6 +12,7 @@
     var stopNodeBtn = document.getElementById("stop-node-link");
     var editConfigBtn = document.getElementById("edit-config-link");
     var editKeyringBtn = document.getElementById("edit-keyring-link");
+    var addKeyBtn = document.getElementById("add-key-btn");
 
     // Get the <span> element that closes the modal
     var closeBtnElements = document.getElementsByClassName("close");
@@ -166,6 +167,28 @@ window.onload = function() {
         Http.send(JSON.stringify(config));
     }
 
+    function recoverKey() {
+        const Http = new XMLHttpRequest();
+
+        Http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                getConfig();
+                getKeyring();
+            }
+            modalKeyring.style.display = "none";
+        }
+
+        var keys = {
+            "Name": document.getElementById("conf-keys-name").value,
+            "Mnemonic": document.getElementById("conf-keys-name").innerText
+        }
+
+        const url= api + 'keys/add';
+        Http.open("POST", url);
+        Http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        Http.send(JSON.stringify(keys));
+    }
+
 // Node
     function checkNodeStatus() {
         const Http = new XMLHttpRequest();
@@ -238,6 +261,10 @@ window.onload = function() {
 
     editKeyringBtn.onclick = function() {
         modalKeyring.style.display = "block";
+    }
+
+    addKeyBtn.onclick = function() {
+        recoverKey();
     }
 
 // When the user clicks on <span> (x), close the modal

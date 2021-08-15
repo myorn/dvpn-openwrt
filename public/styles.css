@@ -188,6 +188,13 @@ body {
     margin-right: 15px;
 }
 
+.config-save-mnemonic {
+    margin-top:20px;
+    font-family: "JetBrains Mono";
+    font-size: 15px;
+    margin-right: 15px;
+}
+
 .config-save-item .config-checkbox {
     width: 28px;
     margin-left: 0;
@@ -205,6 +212,17 @@ body {
     padding: 6px;
     margin-top: 5px;
     width: 100%;
+}
+
+.config-save-mnemonic textarea {
+    background-color: #1c3862;
+    border-style: none;
+    color: #aaaaaa;
+    font-size: 18px;
+    padding: 6px;
+    margin-top: 5px;
+    width: 100%;
+    height: 120px;
 }
 
 .config-menu-controls {

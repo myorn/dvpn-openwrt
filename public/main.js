@@ -1,5 +1,5 @@
 var sock = null;
-var wsuri = "ws://localhost:9000/api/socket";
+var wsuri = "ws://" + document.location.host + "/api/socket";
 
 window.onload = function() {
     getConfig();
@@ -20,7 +20,6 @@ window.onload = function() {
     }
 
     sock.onmessage = function(e) {
-        //console.log("message received: " + e.data);
         var stdOut = document.getElementById('console');
         stdOut.innerHTML += "<br/>" + ansi2html_string(ansiconf, e.data)
         stdOut.scrollTop = stdOut.scrollHeight;
@@ -207,4 +206,8 @@ function getKeyring() {
     Http.open("GET", url);
     Http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     Http.send();
+}
+
+function restoreKey() {
+
 }
