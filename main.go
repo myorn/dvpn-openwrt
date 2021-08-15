@@ -5,17 +5,21 @@ import (
 	"github.com/audi70r/dvpn-openwrt/controllers"
 	"github.com/audi70r/dvpn-openwrt/services/auth"
 	"github.com/audi70r/dvpn-openwrt/services/socket"
+	"io/fs"
 	"net/http"
 )
 
 //go:embed public
+
 var public embed.FS
 
 func main() {
-	publicFS := http.FileServer(http.Dir("./public"))
+	// for development: serve static assets from public folder
+	//publicFS := http.FileServer(http.Dir("./public"))
 
-	//publicDir, _ := fs.Sub(public, "public")
-	//publicFS := http.FileServer(http.FS(publicDir))
+	// for production: embed static assets into binary
+	publicDir, _ := fs.Sub(public, "public")
+	publicFS := http.FileServer(http.FS(publicDir))
 
 	http.Handle("/", auth.BasicAuthForHandler(publicFS)) // serve embedded static assets
 	http.HandleFunc("/api/node/start/stream", auth.BasicAuth(controllers.StartNodeStreamStd))
