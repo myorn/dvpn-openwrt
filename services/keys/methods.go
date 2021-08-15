@@ -2,8 +2,10 @@ package keys
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"github.com/audi70r/dvpn-openwrt/services/node"
+	"github.com/audi70r/dvpn-openwrt/services/socket"
 	"os/exec"
 	"strings"
 )
@@ -43,4 +45,43 @@ func List() (keys Keys, err error) {
 	}
 
 	return keys, err
+}
+
+func AddRecover(req AddRecoverRequest) (err error) {
+	//var out bytes.Buffer
+
+	// Run the dvpn-node keys command, setting the key name and recovering it from a mnemonic
+	cmd := exec.Command(node.DVPNNodeExec, node.DVPNNodeKeys, node.DVPNNodeAdd, req.Name, node.DVPNNodeRecover)
+	nodeStdErr, _ := cmd.StderrPipe()
+
+	mnemonicBuf := bytes.Buffer{}
+	mnemonicBuf.Write([]byte(req.Mnemonic + "\n\r"))
+	cmd.Stdin = &mnemonicBuf
+
+	if err = cmd.Start(); err != nil {
+		return err
+	}
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err
+	}
+
+	// need to send out to a channel
+	stdOutErr := make(chan string)
+
+	go node.SendCaptureAndReturn(nodeStdErr, stdOutErr)
+
+	cmd.Wait()
+
+	stdErr := <-stdOutErr
+
+	close(stdOutErr)
+	socket.Conn.Send([]byte(stdErr))
+
+	if strings.Contains(stdErr, "Error") {
+		return errors.New(stdErr)
+	}
+
+	return nil
 }

@@ -22,8 +22,8 @@ func StartNodeStd() (resp []byte, err error) {
 	ND.OSProcess = cmd.Process
 	ND.Pid = cmd.Process.Pid
 
-	go sendAndCapture(NodeStdOut)
-	go sendAndCapture(NodeStdErr)
+	go SendAndCapture(NodeStdOut)
+	go SendAndCapture(NodeStdErr)
 
 	// After process ended, reset node to defaults
 	go func() {
@@ -67,7 +67,7 @@ func KillNode() (err error) {
 	return nil
 }
 
-func sendAndCapture(r io.Reader) {
+func SendAndCapture(r io.Reader) {
 	var out []byte
 	buf := make([]byte, 1024, 1024)
 	for {
@@ -88,6 +88,32 @@ func sendAndCapture(r io.Reader) {
 			break
 		}
 	}
+
+	return
+}
+
+func SendCaptureAndReturn(r io.Reader, stdOutErr chan string) {
+	var out []byte
+	buf := make([]byte, 1024, 1024)
+	for {
+		n, err := r.Read(buf[:])
+		if n > 0 {
+			d := buf[:n]
+			out = append(out, d...)
+			if err != nil {
+				break
+			}
+		}
+		if err != nil {
+			// Read returns io.EOF at the end of file, which is not an error for us
+			if err == io.EOF {
+				err = nil
+			}
+			break
+		}
+	}
+
+	stdOutErr <- string(out)
 
 	return
 }

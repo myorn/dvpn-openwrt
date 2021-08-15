@@ -11,9 +11,11 @@ import (
 var public embed.FS
 
 func main() {
+	publicFS := http.FileServer(http.Dir("./public"))
+
 	//publicDir, _ := fs.Sub(public, "public")
 	//publicFS := http.FileServer(http.FS(publicDir))
-	publicFS := http.FileServer(http.Dir("./public"))
+
 	http.Handle("/", publicFS) // serve embedded static assets
 	http.HandleFunc("/api/node/start/stream", controllers.StartNodeStreamStd)
 	http.HandleFunc("/api/node", controllers.GetNode)
@@ -21,6 +23,7 @@ func main() {
 	http.HandleFunc("/api/config", controllers.Config)
 	http.HandleFunc("/api/socket", socket.Handle)
 	http.HandleFunc("/api/keys", controllers.ListKeys)
+	http.HandleFunc("/api/keys/add", controllers.AddRecoverKeys)
 
 	if err := http.ListenAndServe(":9000", nil); err != nil {
 		panic("failed to start server")
