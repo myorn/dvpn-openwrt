@@ -9,7 +9,7 @@ import (
 func Config(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		config, err := dvpnconf.GetConfig()
+		config, err := dvpnconf.GetConfigs()
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

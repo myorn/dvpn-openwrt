@@ -1,3 +1,6 @@
 package dvpnconf
 
-const dVPNConfigRootDir = "/.sentinelnode/config.toml"
+const (
+	dVPNConfigPath    = "/.sentinelnode/config.toml"
+	dVPNWireguardPath = "/.sentinelnode/wireguard.toml"
+)

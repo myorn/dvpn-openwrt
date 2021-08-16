@@ -10,15 +10,22 @@ import (
 	"github.com/pelletier/go-toml"
 )
 
-func GetConfig() (config []byte, err error) {
+func GetConfigs() (config []byte, err error) {
 	var dVPNConfig dVPNConfig
 
-	configPath := os.Getenv("HOME") + dVPNConfigRootDir
+	configPath := os.Getenv("HOME") + dVPNConfigPath
 	confBytes, readErr := ioutil.ReadFile(configPath)
 
 	// if config could not be read, attempt to init config
 	if readErr != nil {
 		return initConfig()
+	}
+
+	wireguardConfigPath := os.Getenv("HOME") + dVPNWireguardPath
+	_, readErr = ioutil.ReadFile(wireguardConfigPath)
+
+	if readErr != nil {
+		return initWireguardConfig()
 	}
 
 	if err = toml.Unmarshal(confBytes, &dVPNConfig); err != nil {
@@ -31,7 +38,7 @@ func GetConfig() (config []byte, err error) {
 }
 
 func PostConfig(config dVPNConfig) (resp []byte, err error) {
-	configPath := os.Getenv("HOME") + dVPNConfigRootDir
+	configPath := os.Getenv("HOME") + dVPNConfigPath
 
 	configBytes, err := toml.Marshal(config)
 
@@ -61,5 +68,17 @@ func initConfig() (config []byte, err error) {
 		return config, err
 	}
 
-	return GetConfig()
+	return GetConfigs()
+}
+
+func initWireguardConfig() (config []byte, err error) {
+	cmd := exec.Command(node.DVPNNodeExec, node.DVPNNodeWireguard, node.DVPNNodeConfig, node.DVPNNodeInit)
+
+	err = cmd.Run()
+
+	if err != nil {
+		return config, err
+	}
+
+	return GetConfigs()
 }
