@@ -54,7 +54,7 @@ window.onload = function() {
         Http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse((this.responseText))
-                console.log(resp)
+                console.log(resp.Keyring.From)
                 document.getElementById("conf-gas-adj").value = resp.Chain.GasAdjustment
                 document.getElementById("conf-gas").value = resp.Chain.Gas
                 document.getElementById("config-section-gas").innerHTML = resp.Chain.Gas
@@ -72,6 +72,8 @@ window.onload = function() {
                 document.getElementById("config-section-update-status").innerHTML = resp.Node.IntervalUpdateStatus
                 document.getElementById("conf-node-listen-on").value = resp.Node.ListenOn
                 document.getElementById("config-section-listen-on").innerHTML = resp.Node.ListenOn
+                document.getElementById("conf-chain-keyring-from").value = resp.Keyring.From
+                document.getElementById("conf-use-handshake").checked = resp.Handshake.Enable
                 document.getElementById("conf-node-moniker").value = resp.Node.Moniker
                 document.getElementById("config-section-moniker").innerHTML = resp.Node.Moniker
                 document.getElementById("conf-node-price").value = resp.Node.Price
@@ -141,12 +143,12 @@ window.onload = function() {
                 "SimulateAndExecute": document.getElementById("conf-chain-sim-exec").checked
             },
             "Handshake": {
-                "Enable": false,
+                "Enable": document.getElementById("conf-use-handshake").checked,
                 "Peers": 8
             },
             "Keyring": {
                 "Backend": "test",
-                "From": "nuage"
+                "From": document.getElementById("conf-chain-keyring-from").value
             },
             "Node": {
                 "IntervalSetSessions": document.getElementById("conf-node-interval-set-sessions").value,

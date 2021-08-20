@@ -3,11 +3,9 @@
 # Copyright (C) 2007 OpenWrt.org
 
 START=21
-STOP=15
 
 boot() {
 	/usr/bin/dvpn-openwrt &
-	start $@
 }
  
 enable() {
