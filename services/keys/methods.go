@@ -24,6 +24,8 @@ func List() (keys Keys, err error) {
 		fmt.Println(err.Error())
 	}
 
+	fmt.Println()
+
 	keysRings := strings.Split(out.String(), "\n")
 
 	if len(keysRings) < 2 {

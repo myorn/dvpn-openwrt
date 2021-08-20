@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/audi70r/dvpn-openwrt/services/keys"
 	"io/ioutil"
 	"net/http"
@@ -34,8 +33,6 @@ func AddRecoverKeys(w http.ResponseWriter, r *http.Request) {
 	}
 
 	addKeys, err := keys.ValidateAndUnmarshal(body)
-
-	fmt.Println(addKeys)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

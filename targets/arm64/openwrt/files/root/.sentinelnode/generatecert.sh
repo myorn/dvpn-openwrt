@@ -1,0 +1,11 @@
+openssl req \
+-new \
+-newkey ec \
+-pkeyopt ec_paramgen_curve:prime256v1 \
+-x509 \
+-sha256 \
+-days 365 \
+-nodes \
+-subj "/C=ZZ/ST=ZZ/L=.../O=.../OU=.../CN=.../emailAddress=..." \
+-out ${HOME}/.sentinelnode/tls.crt \
+-keyout ${HOME}/.sentinelnode/tls.key

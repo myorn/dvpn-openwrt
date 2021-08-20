@@ -1,0 +1,19 @@
+#!/bin/sh /etc/rc.common
+# Example script
+# Copyright (C) 2007 OpenWrt.org
+
+START=21
+STOP=15
+
+boot() {
+	/usr/bin/dvpn-openwrt &
+	start $@
+}
+ 
+enable() {
+        /usr/bin/dvpn-openwrt &
+}
+
+disable() {
+	kill $(pidof /usr/bin/dvpn-openwrt)
+}

@@ -28,6 +28,13 @@ func GetConfigs() (config []byte, err error) {
 		return initWireguardConfig()
 	}
 
+	tlsCertPath := os.Getenv("HOME") + dVPNCertificatePath
+	_, readErr = ioutil.ReadFile(tlsCertPath)
+
+	if readErr != nil {
+		return generateCertificate()
+	}
+
 	if err = toml.Unmarshal(confBytes, &dVPNConfig); err != nil {
 		return config, err
 	}
@@ -73,6 +80,18 @@ func initConfig() (config []byte, err error) {
 
 func initWireguardConfig() (config []byte, err error) {
 	cmd := exec.Command(node.DVPNNodeExec, node.DVPNNodeWireguard, node.DVPNNodeConfig, node.DVPNNodeInit)
+
+	err = cmd.Run()
+
+	if err != nil {
+		return config, err
+	}
+
+	return GetConfigs()
+}
+
+func generateCertificate() (config []byte, err error) {
+	cmd := exec.Command(node.BinSH, os.Getenv("HOME")+node.SHGenerateCertPath)
 
 	err = cmd.Run()
 
