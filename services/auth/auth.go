@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/audi70r/dvpn-openwrt/utilities/shadow"
+	"github.com/solarlabsteam/dvpn-openwrt/utilities/shadow"
 	"net/http"
 )
 

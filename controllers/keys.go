@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
-	"github.com/audi70r/dvpn-openwrt/services/keys"
+	"github.com/solarlabsteam/dvpn-openwrt/services/keys"
 	"io/ioutil"
 	"net/http"
 )

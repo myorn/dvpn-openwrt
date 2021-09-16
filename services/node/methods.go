@@ -2,7 +2,7 @@ package node
 
 import (
 	"encoding/json"
-	"github.com/audi70r/dvpn-openwrt/services/socket"
+	"github.com/solarlabsteam/dvpn-openwrt/services/socket"
 	"io"
 	"os/exec"
 	"time"

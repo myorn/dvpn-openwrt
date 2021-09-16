@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/audi70r/dvpn-openwrt/services/node"
-	"github.com/audi70r/dvpn-openwrt/services/socket"
+	"github.com/solarlabsteam/dvpn-openwrt/services/node"
+	"github.com/solarlabsteam/dvpn-openwrt/services/socket"
 	"os/exec"
 	"strings"
 )

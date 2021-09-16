@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/audi70r/dvpn-openwrt/services/node"
+	"github.com/solarlabsteam/dvpn-openwrt/services/node"
 	"net/http"
 )
 

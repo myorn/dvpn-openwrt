@@ -2,7 +2,7 @@ package dvpnconf
 
 import (
 	"encoding/json"
-	"github.com/audi70r/dvpn-openwrt/services/node"
+	"github.com/solarlabsteam/dvpn-openwrt/services/node"
 	"io/ioutil"
 	"os"
 	"os/exec"
