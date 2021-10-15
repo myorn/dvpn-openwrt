@@ -28,7 +28,8 @@ GO_PKG_LDFLAGS_X:= \
 	github.com/cosmos/cosmos-sdk/version.Version=${VERSION} \
 	github.com/cosmos/cosmos-sdk/version.Commit=${COMMIT} \
 	github.com/cosmos/cosmos-sdk/version.BuildTags=${BUILD_TAGS}
-GO_PKG_TAGS:= $(strip netgo,ledger,openwrt)
+GO_PKG_TAGS:= "netgo,openwrt"
+CGO_ENABLED:=1
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
